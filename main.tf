@@ -4,12 +4,12 @@ provider "aws" {
   secret_key = var.aws_secret_access_key
 }
 
-data "aws_ami" "ubuntu" {
+data "aws_ami" "debian" {
   most_recent = true
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+    values = ["debian-11-amd64-*"]
   }
 
   filter {
@@ -17,11 +17,12 @@ data "aws_ami" "ubuntu" {
     values = ["hvm"]
   }
 
-  owners = ["099720109477"] # Canonical
+  owners = ["136693071363"]
 }
 
-resource "aws_instance" "ubuntu" {
-  ami           = data.aws_ami.ubuntu.id
+
+resource "aws_instance" "debian" {
+  ami           = data.aws_ami.debian.id
   instance_type = var.instance_type
 
   tags = {
@@ -30,9 +31,9 @@ resource "aws_instance" "ubuntu" {
 }
 
 output "instance_ami" {
-  value = aws_instance.ubuntu.ami
+  value = aws_instance.debian.ami
 }
 
 output "instance_arn" {
-  value = aws_instance.ubuntu.arn
+  value = aws_instance.debian.arn
 }
